@@ -12,7 +12,6 @@ __Vectors
 	ENTRY
 Reset_Handler
 	LDR R0,=NUM
-	LDR R8,=5_14
 	LDR R1,[R0]
 	MOV R2,#10
 	MOV R4,#8
