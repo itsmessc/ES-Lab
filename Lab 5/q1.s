@@ -1,4 +1,4 @@
-; FACTORIAL OF 5 = (120)D = (78)H RESULT IS IN R0
+
 	AREA    RESET, DATA, READONLY
     EXPORT  __Vectors
 
