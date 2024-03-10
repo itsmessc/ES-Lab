@@ -1,33 +1,34 @@
-	AREA    RESET, DATA, READONLY
+    AREA    RESET, DATA, READONLY
     EXPORT  __Vectors
 
 __Vectors 
-	DCD  0x100000FF     ; stack pointer value when stack is empty
-	DCD  Reset_Handler  ; reset vector
+    DCD  0x100000FF     ; stack pointer value when stack is empty
+    DCD  Reset_Handler  ; reset vector
   
-    	ALIGN
+    ALIGN
 
-	AREA mycode, CODE, READONLY
-	EXPORT Reset_Handler
-	ENTRY
+    AREA mycode, CODE, READONLY
+    EXPORT Reset_Handler
+    ENTRY
 Reset_Handler
-	LDR R0,=NUM
-	LDR R1,[R0]
-	MOV R2,#10
-	MOV R4,#8
+    LDR R0, =NUM        ; Load address of the hex number
+    LDR R1, [R0] 
+    MOV R2, #10         ; Divisor for conversion
+    MOV R5, #0
+	MOV R4, R1; Initialize R5 to count iterations
 LOOP
-	UDIV R3,R1,R2
-	MLS R5,R2,R3,R1
-	ADD R6,R5
-	ROR R6,#4
-	MOV R1,R3
-	SUBS R4,#1
-	BNE LOOP
-	LDR R0,=RES
-	STR R6,[R0]
+    CMP R1, R2
+	BLS DONE
+    ADD R5, R5, #1      ; Increment loop counter
+    SUBS R1, R1, #10    ; Subtract 10 from R1
+    BNE LOOP              ; Repeat loop
+DONE
+    MLS R4,R2,R5,R4
+	LSL R5,#4
+	ADD R5,R4
 STOP
-	B STOP
-NUM DCD 0X40
-	AREA mydata, DATA,READWRITE
-RES DCD 0
-	END
+    B STOP
+NUM DCD 0x40           ; Example hex number (40 in hex)
+    AREA mydata, DATA, READWRITE
+RES DCD 0               ; Storage for result
+    END
